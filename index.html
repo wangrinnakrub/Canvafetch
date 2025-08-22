@@ -1,33 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Canva Slide Show</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Canva Fullscreen</title>
   <style>
-    body {
+    html, body {
       margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #f4f4f4;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
     }
-    iframe {
-      width: 90%;
-      height: 90%;
+    .fullscreen-iframe {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
       border: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      border-radius: 12px;
+      display: block;
     }
   </style>
 </head>
 <body>
-  <!-- เปลี่ยนลิงก์ src ให้เป็นของคุณ -->
-  <iframe loading="lazy"
-          src="https://www.canva.com/design/DAGTncpeRdM/cPvZgA-ueqwfN-_c-Vdvuw/view?embed"
-          allowfullscreen="allowfullscreen"
-          allow="fullscreen">
-  </iframe>
+  <iframe class="fullscreen-iframe" allowfullscreen loading="lazy"></iframe>
+
+  <script>
+    const base = "https://www.canva.com/design/DAGTncpeRdM/cPvZgA-ueqwfN-_c-Vdvuw/view?embed";
+
+    const f = document.querySelector('.fullscreen-iframe');
+
+    function setSrc() {
+      const bust = "ts=" + Date.now();
+      f.src = base + (base.includes("?") ? "&" : "?") + bust;
+    }
+
+    setSrc();
+
+    setInterval(setSrc, 10 * 60 * 1000);
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) setSrc();
+    });
+  </script>
 </body>
 </html>
